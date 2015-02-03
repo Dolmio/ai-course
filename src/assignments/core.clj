@@ -49,34 +49,48 @@
   (let [neighbours (get-neighbours from-location)]
     (clojure.set/intersection neighbours floors)))
 
-(defn node-to-expand [potential-nodes]
+(defn node-to-expand [potential-nodes visited-nodes]
   (->> potential-nodes
        (map #(hash-map :node % :cost (cost %)))
-       (apply min-key :cost)
-       (:node)))
+       (apply min-key :cost)))
 
 (defn new-node [location parent-node]
   {:location location :route (conj (:route parent-node) (:location parent-node))})
 
+(defn mem [visited-nodes possible-location]
+  (if-not (contains? visited-nodes (:location possible-location))
+    true
+    (< (cost possible-location) (:min-cost (get visited-nodes (:location possible-location))))
+    )
+  )
+
 (def expand-count (atom 0))
 
-(defn expand [expanded-node potential-nodes-to-expand]
+(defn expand [expanded-node potential-nodes-to-expand visited-nodes]
   (if (= goal-node (:location expanded-node))
     (do (swap! expand-count inc)
         (:route expanded-node))
 
      (let [
-           node-to-expand (node-to-expand potential-nodes-to-expand)
-           new-leaves (map #(new-node % expanded-node) (possible-locations (:location expanded-node)))
+           node-to-expand (node-to-expand potential-nodes-to-expand visited-nodes)
+           last-visit {:location (:location (:node node-to-expand)) :min-cost (:cost node-to-expand)}
+           updated-visited-nodes (assoc visited-nodes (:location (:node node-to-expand)) last-visit)
+           new-leaves (filter #(mem updated-visited-nodes %) (map #(new-node % expanded-node) (possible-locations (:location expanded-node))))
            ]
        (swap! expand-count inc)
-       (recur node-to-expand (clojure.set/difference (set (concat potential-nodes-to-expand new-leaves)) #{expanded-node})))))
+       (recur (:node node-to-expand)
+              (clojure.set/difference (set (concat potential-nodes-to-expand new-leaves)) #{expanded-node})
+              updated-visited-nodes
+              ))))
 
+(defn find-solution-to-maze []
+     (let [start-position {:x 11 :y 11}
+           optimal-route (expand {:location start-position :route []}
+                                 (map #(hash-map :location % :route [start-position])(possible-locations start-position ))
+                                 {})]
 
-
-(defn run []
-     (let [start-position {:x 11 :y 11}]
-       (expand {:location start-position :route []} (map #(hash-map :location % :route [start-position])(possible-locations start-position )))))
+       (println "Expanded:" @expand-count "nodes")
+        optimal-route))
 
 
 
