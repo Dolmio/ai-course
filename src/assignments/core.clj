@@ -21,6 +21,8 @@
 (def rows (count tiles))
 (def columns (count (first tiles)))
 (def goal-node {:x 0 :y 0})
+(def start-position {:x 11 :y 11})
+(def expand-count (atom 0))
 
 (defn distance-to-goal [{:keys [x y]}]
   (Math/sqrt
@@ -49,7 +51,7 @@
   (let [neighbours (get-neighbours from-location)]
     (clojure.set/intersection neighbours floors)))
 
-(defn node-to-expand [potential-nodes visited-nodes]
+(defn node-to-expand [potential-nodes]
   (->> potential-nodes
        (map #(hash-map :node % :cost (cost %)))
        (apply min-key :cost)))
@@ -57,25 +59,23 @@
 (defn new-node [location parent-node]
   {:location location :route (conj (:route parent-node) (:location parent-node))})
 
-(defn mem [visited-nodes possible-location]
+(defn too-costly-nodes [visited-nodes possible-location]
   (if-not (contains? visited-nodes (:location possible-location))
     true
     (< (cost possible-location) (:min-cost (get visited-nodes (:location possible-location))))
     )
   )
 
-(def expand-count (atom 0))
-
 (defn expand [expanded-node potential-nodes-to-expand visited-nodes]
   (if (= goal-node (:location expanded-node))
     (do (swap! expand-count inc)
-        (:route expanded-node))
+        (conj  (:route expanded-node) (:location expanded-node)))
 
      (let [
-           node-to-expand (node-to-expand potential-nodes-to-expand visited-nodes)
+           node-to-expand (node-to-expand potential-nodes-to-expand)
            last-visit {:location (:location (:node node-to-expand)) :min-cost (:cost node-to-expand)}
            updated-visited-nodes (assoc visited-nodes (:location (:node node-to-expand)) last-visit)
-           new-leaves (filter #(mem updated-visited-nodes %) (map #(new-node % expanded-node) (possible-locations (:location expanded-node))))
+           new-leaves (filter #(too-costly-nodes updated-visited-nodes %) (map #(new-node % expanded-node) (possible-locations (:location expanded-node))))
            ]
        (swap! expand-count inc)
        (recur (:node node-to-expand)
@@ -83,14 +83,22 @@
               updated-visited-nodes
               ))))
 
+(defn convert-locations-to-instructions [locations]
+  (->> locations
+       (partition 2 1)
+       (map (fn [[first second]]
+                 (cond (> (:x second) (:x first)) "E"
+                       (< (:x second) (:x first)) "W"
+                       (< (:y second) (:y first)) "N"
+                       (> (:y second) (:y first)) "S"
+                       )))))
+
 (defn find-solution-to-maze []
-     (let [start-position {:x 11 :y 11}
-           optimal-route (expand {:location start-position :route []}
+     (let [optimal-route (expand {:location start-position :route []}
                                  (map #(hash-map :location % :route [start-position])(possible-locations start-position ))
                                  {})]
-
        (println "Expanded:" @expand-count "nodes")
-        optimal-route))
+       (convert-locations-to-instructions optimal-route)))
 
 
 
