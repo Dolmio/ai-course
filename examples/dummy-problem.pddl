@@ -1,9 +1,11 @@
 (define (problem strips-gripper2)
     (:domain gripper-strips)
-    (:objects rooma roomb)
+    (:objects rooma roomb - room
+              m1 - (either missionary person)
+              right-bank wrong-bank - location
+                )
     (:init 
-            (room rooma)
-            (room roomb)
             (at-robby rooma)
+            (person-at wrong-bank m1)
             )
-(:goal (at-robby roomb)))
+(:goal (person-at right-bank m1)))
