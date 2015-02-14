@@ -1,13 +1,11 @@
 (define (domain gripper-strips)
     (:requirements :typing :equality :conditional-effects)
     (:types
-        room
-        missionary 
-        cannibal
-        person
-        boat
-        location
-        num
+        room - room
+        missionary cannibal - person
+        boat - boat
+        location - location
+        num - num
         )
 
 (:predicates
@@ -20,12 +18,6 @@
     (on-boat-2 ?n)
 
 )
-(:action move
-    :parameters (?from - room  ?to - room)
-    :precondition (and (at-robby ?from))
-    :effect (and (at-robby ?to) (not (at-robby ?from))))
-
-
 
 (:action move-boat
     :parameters (?from - location ?to - location ?boat - boat ?on-boat-count - num)
@@ -39,22 +31,30 @@
     :parameters (?boat - boat ?person - person ?location - location ?on-boat-count - num)
     :precondition (and (person-at ?location ?person) 
                        (boat-at ?location ?boat)
-                       (not (on-boat-2 num))
+                       (not (on-boat-2 ?on-boat-count))
                        )
     :effect (and (on-boat ?person ?boat)
                  (not (person-at ?location ?person))
+                  (when (on-boat-0 ?on-boat-count)
+                      (and (on-boat-1 ?on-boat-count)
+                           (not (on-boat-0 ?on-boat-count))))
+                  (when (on-boat-1 ?on-boat-count)
+                      (and (on-boat-2 ?on-boat-count)
+                           (not (on-boat-1 ?on-boat-count))))
                 
-               
-                    ))
+            ))
     
 (:action leave-boat
-    :parameters (?person - person ?boat - boat ?location - location)
+    :parameters (?person - person ?boat - boat ?location - location ?on-boat-count - num)
     :precondition (and (on-boat ?person ?boat)
                         (boat-at ?location ?boat)
                         )
     :effect (and (person-at ?location ?person)
-                    (not (on-boat ?person ?boat)))
-    )
-
-    )
+                 (not (on-boat ?person ?boat))
+                 (when (on-boat-1 ?on-boat-count)
+                    (and (on-boat-0 ?on-boat-count)
+                         (not (on-boat-1 ?on-boat-count))))
+                 (when (on-boat-2 ?on-boat-count)
+                    (and (on-boat-1 ?on-boat-count)
+                         (not (on-boat-2 ?on-boat-count)))))))
 

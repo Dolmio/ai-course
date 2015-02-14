@@ -1,8 +1,8 @@
 (define (problem strips-gripper2)
     (:domain gripper-strips)
     (:objects rooma roomb - room
-              m1 m2 m3 - (either missionary person)
-              c1 c2 c3 - (either cannibal person)
+              m1 m2 m3 - person
+              c1 c2 c3 - person
               right-bank wrong-bank - location
               b1 - boat
               n - num
