@@ -34,14 +34,19 @@
 
 
 (:action board-cannibal-into-boat
-    :parameters (?boat - boat ?person - person ?location - location ?on-boat-count - num)
+    :parameters (?boat - boat ?person - person ?location - location ?on-boat-count - num ?nc - int ?nm - int ?new-number-of-cannibals - int)
     :precondition (and (person-at ?location ?person) 
                        (boat-at ?location ?boat)
                        (not (on-boat-2 ?on-boat-count))
                        (cannibal ?person)
+                       (decrement ?new-number-of-cannibals ?nc)
                        )
     :effect (and (on-boat ?person ?boat)
                  (not (person-at ?location ?person))
+
+                 (counts-in-location ?location ?new-number-of-cannibals ?nm)
+                 (not (counts-in-location ?location ?nc ?nm))
+                 
                   (when (on-boat-0 ?on-boat-count)
                       (and (on-boat-1 ?on-boat-count)
                            (not (on-boat-0 ?on-boat-count))))
