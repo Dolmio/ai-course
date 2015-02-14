@@ -5,6 +5,7 @@
               c1 c2 c3 - (either cannibal person)
               right-bank wrong-bank - location
               b1 - boat
+              n - num
                 )
     (:init 
             (at-robby rooma)
@@ -15,6 +16,7 @@
             (person-at wrong-bank c2)
             (person-at wrong-bank c3)
             (boat-at wrong-bank b1)
+            (on-boat-0 n)
             )
 (:goal (and (person-at right-bank m1)
             (person-at right-bank m2)
