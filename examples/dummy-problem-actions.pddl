@@ -81,13 +81,16 @@
             ))
     
 (:action missionary-leave-boat
-    :parameters (?person - person ?boat - boat ?location - location ?on-boat-count - num)
+    :parameters (?person - person ?boat - boat ?location - location ?on-boat-count - num ?nc - int ?nm - int ?new-number-of-missionaries - int)
     :precondition (and (on-boat ?person ?boat)
                         (boat-at ?location ?boat)
                         (missionary ?person)
+                        (increment ?new-number-of-missionaries ?nm)
                         )
     :effect (and (person-at ?location ?person)
                  (not (on-boat ?person ?boat))
+                 (counts-in-location ?location ?nc ?new-number-of-missionaries)
+                 (not (counts-in-location ?location ?nc ?nm))
                  (when (on-boat-1 ?on-boat-count)
                     (and (on-boat-0 ?on-boat-count)
                          (not (on-boat-1 ?on-boat-count))))
