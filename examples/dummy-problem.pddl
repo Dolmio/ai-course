@@ -19,6 +19,8 @@
             (boat-at wrong-bank b1)
             (on-boat-0 n)
 
+            (counts-in-location wrong-bank a3 a3)
+            (counts-in-location right-bank a0 a0)
 
             (missionary m1)
             (missionary m2)
@@ -43,6 +45,7 @@
             (can-leave-boat-cannibal a2 a1)
             (can-leave-boat-cannibal a1 j0)
             (can-leave-boat-cannibal n0 j0)
+
 
             (increment a1 a0)
             (increment a2 a1)
