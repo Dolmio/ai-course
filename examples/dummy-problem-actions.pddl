@@ -1,4 +1,4 @@
-(define (domain gripper-strips)
+(define (domain missionaries)
     (:requirements :typing :conditional-effects :adl)
     (:types
         room - room
@@ -37,6 +37,7 @@
     :precondition (and (person-at ?location ?person) 
                        (boat-at ?location ?boat)
                        (not (on-boat-2 ?on-boat-count))
+                       (counts-in-location ?location ?nc ?nm)
                        (or (and (missionary ?person)
                                 (decrement ?new-number-of-missionaries ?nm)
                                 (can-board-missionary ?nm ?nc))

@@ -41,8 +41,8 @@
             (can-leave-boat-cannibal a3 a2)
             (can-leave-boat-canibal a2 a0)
             (can-leave-boat-cannibal a2 a1)
-            (can-leave-boat-cannibal a1 j0)
-            (can-leave-boat-cannibal n0 j0)
+            (can-leave-boat-cannibal a1 a0)
+            (can-leave-boat-cannibal a0 a0)
 
             (increment a1 a0)
             (increment a2 a1)
