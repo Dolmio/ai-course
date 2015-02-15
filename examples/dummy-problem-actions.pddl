@@ -1,20 +1,18 @@
 (define (domain missionaries)
     (:requirements :typing :conditional-effects :adl)
     (:types
-        room - room
         missionary cannibal - person
         boat - boat
         location - location
-        num - num
         )
 
 (:predicates
     (person-at ?loc - location ?per - person)
     (boat-at ?loc - location ?boat - boat)
     (on-boat ?per - person ?boat - boat) 
-    (on-boat-0 ?n)
-    (on-boat-1 ?n)
-    (on-boat-2 ?n)
+    (on-boat-0)
+    (on-boat-1)
+    (on-boat-2)
     (counts-in-location ?loc - location ?number-of-cannibals - int ?number-of-missionaries - int)
     (missionary ?m - person)
     (cannibal ?c - person)
@@ -26,17 +24,17 @@
 )
 
 (:action move-boat
-    :parameters (?from - location ?to - location ?boat - boat ?on-boat-count - num)
-    :precondition (and (boat-at ?from ?boat) (not (on-boat-0 ?on-boat-count)))
+    :parameters (?from - location ?to - location ?boat - boat)
+    :precondition (and (boat-at ?from ?boat) (not (on-boat-0)))
     :effect (and (boat-at ?to ?boat) (not (boat-at ?from ?boat)))
 
     )
 
 (:action board-into-boat
-    :parameters (?boat - boat ?person - person ?location - location ?on-boat-count - num ?nc - int ?nm - int ?new-number-of-missionaries - int ?new-number-of-cannibals - int)
+    :parameters (?boat - boat ?person - person ?location - location ?nc - int ?nm - int ?new-number-of-missionaries - int ?new-number-of-cannibals - int)
     :precondition (and (person-at ?location ?person) 
                        (boat-at ?location ?boat)
-                       (not (on-boat-2 ?on-boat-count))
+                       (not (on-boat-2))
                        (counts-in-location ?location ?nc ?nm)
                        (or (and (missionary ?person)
                                 (decrement ?new-number-of-missionaries ?nm)
@@ -52,17 +50,17 @@
                  (when (cannibal ?person)
                     (and (counts-in-location ?location ?new-number-of-cannibals ?nm)
                          (not (counts-in-location ?location ?nc ?nm))))
-                  (when (on-boat-0 ?on-boat-count)
-                      (and (on-boat-1 ?on-boat-count)
-                           (not (on-boat-0 ?on-boat-count))))
-                  (when (on-boat-1 ?on-boat-count)
-                      (and (on-boat-2 ?on-boat-count)
-                           (not (on-boat-1 ?on-boat-count))))
+                  (when (on-boat-0)
+                      (and (on-boat-1)
+                           (not (on-boat-0))))
+                  (when (on-boat-1)
+                      (and (on-boat-2)
+                           (not (on-boat-1))))
                 
             ))
     
 (:action leave-boat
-    :parameters (?person - person ?boat - boat ?location - location ?on-boat-count - num ?nc - int ?nm - int ?new-number-of-missionaries - int ?new-number-of-cannibals - int)
+    :parameters (?person - person ?boat - boat ?location - location ?nc - int ?nm - int ?new-number-of-missionaries - int ?new-number-of-cannibals - int)
     :precondition (and (on-boat ?person ?boat)
                         (boat-at ?location ?boat)
                         (counts-in-location ?location ?nc ?nm)
@@ -81,11 +79,11 @@
                  (when (cannibal ?person)
                     (and (counts-in-location ?location ?new-number-of-cannibals ?nm)
                          (not (counts-in-location ?location ?nc ?nm))))
-                 (when (on-boat-1 ?on-boat-count)
-                    (and (on-boat-0 ?on-boat-count)
-                         (not (on-boat-1 ?on-boat-count))))
-                 (when (on-boat-2 ?on-boat-count)
-                    (and (on-boat-1 ?on-boat-count)
-                         (not (on-boat-2 ?on-boat-count))))))
+                 (when (on-boat-1)
+                    (and (on-boat-0)
+                         (not (on-boat-1))))
+                 (when (on-boat-2)
+                    (and (on-boat-1)
+                         (not (on-boat-2))))))
 )
 
