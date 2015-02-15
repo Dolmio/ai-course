@@ -2,7 +2,7 @@
     (:domain missionaries)
     (:objects
               m1 m2 m3 - person
-              c1 c2 - person
+              c1 - person
               right-bank wrong-bank - location
               b1 - boat
               a0 a1 a2 a3 - int
@@ -12,11 +12,10 @@
             (person-at wrong-bank m2)
             (person-at wrong-bank m3)
             (person-at wrong-bank c1)
-            (person-at wrong-bank c2)
             (boat-at wrong-bank b1)
             (on-boat-0)
 
-            (counts-in-location wrong-bank a2 a3)
+            (counts-in-location wrong-bank a1 a3)
             (counts-in-location right-bank a0 a0)
 
             (missionary m1)
@@ -24,7 +23,6 @@
             (missionary m3)
             
             (cannibal c1)
-            (cannibal c2)
             
             (can-board-missionary a1 a0)
             (can-board-missionary a2 a0)
@@ -53,7 +51,6 @@
             (person-at right-bank m2)
             (person-at right-bank m3)
             (person-at right-bank c1)
-            (person-at right-bank c2)
 
 
             )))
