@@ -99,13 +99,17 @@
                          (not (on-boat-2 ?on-boat-count))))))
 
 (:action cannibal-leave-boat
-    :parameters (?person - person ?boat - boat ?location - location ?on-boat-count - num)
+    :parameters (?person - person ?boat - boat ?location - location ?on-boat-count - num ?nc - int ?nm - int ?new-number-of-cannibals - int)
     :precondition (and (on-boat ?person ?boat)
                         (boat-at ?location ?boat)
                         (cannibal ?person)
+                        (decrement ?new-number-of-cannibals ?nc)
+                        (can-leave-boat-cannibal ?nm ?nc)
                         )
     :effect (and (person-at ?location ?person)
                  (not (on-boat ?person ?boat))
+                 (counts-in-location ?location ?new-number-of-cannibals ?nm)
+                 (not (counts-in-location ?location ?nc ?nm))
                  (when (on-boat-1 ?on-boat-count)
                     (and (on-boat-0 ?on-boat-count)
                          (not (on-boat-1 ?on-boat-count))))
