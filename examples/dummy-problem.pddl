@@ -1,6 +1,6 @@
 (define (problem strips-gripper2)
     (:domain gripper-strips)
-    (:objects rooma roomb - room
+    (:objects
               m1 m2 m3 - person
               c1 c2 c3 - person
               right-bank wrong-bank - location
@@ -9,7 +9,6 @@
               a0 a1 a2 a3 - int
                 )
     (:init 
-            (at-robby rooma)
             (person-at wrong-bank m1)
             (person-at wrong-bank m2)
             (person-at wrong-bank m3)
@@ -25,8 +24,7 @@
             (missionary m1)
             (missionary m2)
             (missionary m3)
-
-
+            
             (cannibal c1)
             (cannibal c2)  
             (cannibal c3)
@@ -41,11 +39,10 @@
             (can-leave-boat-cannibal a3 a0)
             (can-leave-boat-cannibal a3 a1)
             (can-leave-boat-cannibal a3 a2)
-            (can-leave-boat-cannibal a2 a0)
+            (can-leave-boat-canibal a2 a0)
             (can-leave-boat-cannibal a2 a1)
             (can-leave-boat-cannibal a1 j0)
             (can-leave-boat-cannibal n0 j0)
-
 
             (increment a1 a0)
             (increment a2 a1)
