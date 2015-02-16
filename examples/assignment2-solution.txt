@@ -1,0 +1,128 @@
+Juho Salmio
+217259
+
+
+t@e42aa9f2c4f3:/opt/shared/examples# ./m_planner dummy-problem-actions.pddl dummy-problem.pddl -A 1 -m 12000
+Madagascar 0.99999 21/11/2013 11:54:15 amd64 1-core
+Options: file:dummy-problem-actions.pddl file:dummy-problem.pddl -A 1 -m 12000
+Domain: missionaries
+Problem: missionaries-and-cannibals
+Parser: 388 ground actions and 83 state variables
+Invariants: 0 1 2 3  0.00 secs
+Goal: conjunctive
+Simplified: 74 ground actions and 31 state variables
+Actions: conjunctive
+Disabling graph %: 10 20 30 40 50 60 70 80 90 100 0.00 secs (max SCC size 37)
+Plan type: E-step
+Heuristic: VSIDS
+				Allocated 32 MB permanent (total 123 MB)
+Horizon 0: 31 variables
+0 UNSAT (0 decisions 0 conflicts)
+Horizon 5: 2716 variables
+				Allocated 32 MB (total 308 MB)
+5 UNSAT (23 decisions 11 conflicts)
+Horizon 10: 5401 variables
+10 UNSAT (4351 decisions 1827 conflicts)
+Horizon 15: 8086 variables
+				Allocated 32 MB (total 493 MB)
+						GC: 37.89 MB
+				Allocated 32 MB (total 525 MB)
+				Allocated 32 MB (total 557 MB)
+						GC: 75.23 MB
+15 UNSAT (235761 decisions 54204 conflicts)
+Horizon 20: 10771 variables
+						GC: 102.11 MB
+						GC: 33.43 MB
+						GC: 59.46 MB
+						GC: 81.80 MB
+						GC: 101.64 MB
+				Allocated 32 MB (total 667 MB)
+						GC: 106.52 MB
+						GC: 105.59 MB
+						GC: 129.58 MB
+						GC: 123.28 MB
+				Allocated 32 MB (total 699 MB)
+						GC: 143.29 MB
+						GC: 134.45 MB
+						GC: 153.93 MB
+						GC: 159.94 MB
+				Allocated 32 MB (total 731 MB)
+						GC: 175.25 MB
+						GC: 175.13 MB
+						GC: 176.38 MB
+				Allocated 32 MB (total 763 MB)
+						GC: 197.50 MB
+						GC: 195.88 MB
+						GC: 204.05 MB
+						GC: 213.76 MB
+				Allocated 32 MB (total 795 MB)
+						GC: 223.36 MB
+						GC: 229.22 MB
+						GC: 235.79 MB
+						GC: 237.74 MB
+						GC: 236.90 MB
+						GC: 243.91 MB
+				Allocated 32 MB (total 827 MB)
+						GC: 252.24 MB
+						GC: 254.55 MB
+						GC: 263.77 MB
+						GC: 256.95 MB
+				Allocated 32 MB (total 859 MB)
+						GC: 294.12 MB
+						GC: 266.22 MB
+						GC: 271.86 MB
+						GC: 283.20 MB
+						GC: 291.93 MB
+						GC: 288.11 MB
+				Allocated 32 MB (total 891 MB)
+						GC: 303.30 MB
+						GC: 309.83 MB
+						GC: 307.74 MB
+						GC: 306.57 MB
+						GC: 318.61 MB
+						GC: 313.99 MB
+				Allocated 32 MB (total 923 MB)
+						GC: 348.17 MB
+				Allocated 32 MB (total 955 MB)
+						GC: 361.92 MB
+						GC: 352.77 MB
+20 UNSAT (6521786 decisions 1426624 conflicts)
+Horizon 25: 13456 variables
+						GC: 283.87 MB
+						GC: 82.28 MB
+SAT (484660 decisions 75109 conflicts)
+PLAN FOUND: 25 steps
+STEP 0: board-into-boat(b1,c2,wrong-bank,a0,a1)
+STEP 1: board-into-boat(b1,m1,wrong-bank,a1,a0)
+STEP 2: move-boat(wrong-bank,right-bank,b1)
+STEP 3: leave-boat(m1,b1,right-bank,a0,a1)
+STEP 4: move-boat(right-bank,wrong-bank,b1)
+STEP 5: board-into-boat(b1,c1,wrong-bank,a0,a1)
+STEP 6: move-boat(wrong-bank,right-bank,b1)
+STEP 7: leave-boat(c2,b1,right-bank,a1,a0)
+STEP 9: move-boat(right-bank,wrong-bank,b1)
+STEP 10: board-into-boat(b1,c3,wrong-bank,a1,a2)
+STEP 11: leave-boat(c1,b1,wrong-bank,a2,a1)
+STEP 12: board-into-boat(b1,m3,wrong-bank,a1,a0)
+STEP 13: move-boat(wrong-bank,right-bank,b1)
+STEP 15: leave-boat(m3,b1,right-bank,a0,a1)
+STEP 16: move-boat(right-bank,wrong-bank,b1)
+STEP 17: board-into-boat(b1,c1,wrong-bank,a0,a1)
+STEP 18: move-boat(wrong-bank,right-bank,b1)
+STEP 19: leave-boat(c1,b1,right-bank,a1,a0)
+STEP 20: move-boat(right-bank,wrong-bank,b1)
+STEP 21: board-into-boat(b1,m2,wrong-bank,a1,a0)
+STEP 22: move-boat(wrong-bank,right-bank,b1)
+STEP 23: leave-boat(m2,b1,right-bank,a0,a1)
+STEP 24: leave-boat(c3,b1,right-bank,a1,a0)
+23 actions in the plan.
+total time 613.37 preprocess 0.00
+total size 1.075 GB
+max. learned clause length 3339
+t val conflicts decisions
+0 0 0 0
+5 0 11 23
+10 0 1827 4351
+15 0 54204 235761
+20 0 1426624 6521786
+25 1 75109 484660
