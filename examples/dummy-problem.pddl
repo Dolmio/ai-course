@@ -5,7 +5,7 @@
               c1 - person
               right-bank wrong-bank - location
               b1 - boat
-              a0 a1 a2 a3 - int
+              a0 a1 a2 a3 - more-missionaries-count
                 )
     (:init 
             (person-at wrong-bank m1)
@@ -15,29 +15,22 @@
             (boat-at wrong-bank b1)
             (on-boat-0)
 
-            (counts-in-location wrong-bank a1 a3)
-            (counts-in-location right-bank a0 a0)
-
             (missionary m1)
             (missionary m2)
-            (missionary m3)
+             (missionary m3)
             
             (cannibal c1)
             
-            (can-board-missionary a1 a0)
-            (can-board-missionary a2 a0)
-            (can-board-missionary a3 a0) 
-            (can-board-missionary a2 a1)
-            (can-board-missionary a3 a1)
-            (can-board-missionary a3 a2)
+            (can-board-missionary a1)
+            (can-board-missionary a2)
+            (can-board-missionary a3)
 
-            (can-leave-boat-cannibal a3 a0)
-            (can-leave-boat-cannibal a3 a1)
-            (can-leave-boat-cannibal a3 a2)
-            (can-leave-boat-canibal a2 a0)
-            (can-leave-boat-cannibal a2 a1)
-            (can-leave-boat-cannibal a1 a0)
-            (can-leave-boat-cannibal a0 a0)
+            (can-leave-boat-cannibal a1)
+            (can-leave-boat-cannibal a2)
+            (can-leave-boat-cannibal a3)
+
+            (more-missionaries-in-location wrong-bank a2)
+            (more-missionaries-in-location right-bank a0)
 
             (increment a1 a0)
             (increment a2 a1)
@@ -50,6 +43,7 @@
 (:goal (and (person-at right-bank m1)
             (person-at right-bank m2)
             (person-at right-bank m3)
+           
             (person-at right-bank c1)
 
 

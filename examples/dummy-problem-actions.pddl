@@ -4,6 +4,7 @@
         missionary cannibal - person
         boat - boat
         location - location
+        more-missionaries-count -  more-missionaries-count
         )
 
 (:predicates
@@ -13,13 +14,13 @@
     (on-boat-0)
     (on-boat-1)
     (on-boat-2)
-    (counts-in-location ?loc - location ?number-of-cannibals - int ?number-of-missionaries - int)
     (missionary ?m - person)
     (cannibal ?c - person)
-    (can-board-missionary ?number-of-missionaries - int ?number-of-cannibals - int)
-    (can-leave-boat-cannibal ?number-of-missionaries - int ?number-of-cannibals - int)
-    (decrement ?a - int ?b - int)
-    (increment ?a - int ?b - int)
+    (can-board-missionary ?c - more-missionaries-count)
+    (can-leave-boat-cannibal ?c - more-missionaries-count)
+    (decrement ?a - more-missionaries-count ?b - more-missionaries-count)
+    (increment ?a - more-missionaries-count ?b - more-missionaries-count)
+    (more-missionaries-in-location ?loc - location ?c - more-missionaries-count)
 
 )
 
@@ -31,25 +32,20 @@
     )
 
 (:action board-into-boat
-    :parameters (?boat - boat ?person - person ?location - location ?nc - int ?nm - int ?new-number-of-missionaries - int ?new-number-of-cannibals - int)
+    :parameters (?boat - boat ?person - person ?location - location ?more-missionaries-count - more-missionaries-count ?new-more-missionaries-count - more-missionaries-count)
     :precondition (and (person-at ?location ?person) 
                        (boat-at ?location ?boat)
                        (not (on-boat-2))
-                       (counts-in-location ?location ?nc ?nm)
+                       (more-missionaries-in-location ?location ?more-missionaries-count)
                        (or (and (missionary ?person)
-                                (decrement ?new-number-of-missionaries ?nm)
-                                (can-board-missionary ?nm ?nc))
+                                (decrement ?new-more-missionaries-count ?more-missionaries-count)
+                                (can-board-missionary ?more-missionaries-count))
                            (and (cannibal ?person)
-                                (decrement ?new-number-of-cannibals ?nc))))
+                                (increment ?new-more-missionaries-count ?more-missionaries-count))))
     :effect (and (on-boat ?person ?boat)
                  (not (person-at ?location ?person))
-
-                 (when (missionary ?person)
-                    (and (counts-in-location ?location ?nc ?new-number-of-missionaries)
-                         (not (counts-in-location ?location ?nc ?nm))))
-                 (when (cannibal ?person)
-                    (and (counts-in-location ?location ?new-number-of-cannibals ?nm)
-                         (not (counts-in-location ?location ?nc ?nm))))
+                 (more-missionaries-in-location ?location ?new-more-missionaries-count)
+                 (not (more-missionaries-in-location ?location ?more-missionaries-count))
                   (when (on-boat-0)
                       (and (on-boat-1)
                            (not (on-boat-0))))
@@ -60,25 +56,21 @@
             ))
     
 (:action leave-boat
-    :parameters (?person - person ?boat - boat ?location - location ?nc - int ?nm - int ?new-number-of-missionaries - int ?new-number-of-cannibals - int)
+    :parameters (?person - person ?boat - boat ?location - location ?more-missionaries-count - more-missionaries-count ?new-more-missionaries-count - more-missionaries-count)
     :precondition (and (on-boat ?person ?boat)
                         (boat-at ?location ?boat)
-                        (counts-in-location ?location ?nc ?nm)
+                        (more-missionaries-in-location ?location ?more-missionaries-count)
                         (or 
                             (and (missionary ?person)
-                                 (increment ?new-number-of-missionaries ?nm))
+                                 (increment ?new-more-missionaries-count ?more-missionaries-count))
                             (and (cannibal ?person)
-                                 (increment ?new-number-of-cannibals ?nc)
-                                 (can-leave-boat-cannibal ?nm ?nc))))
+                                 (decrement ?new-more-missionaries-count ?more-missionaries-count)
+                                 (can-leave-boat-cannibal ?more-missionaries-count))))
 
     :effect (and (person-at ?location ?person)
                  (not (on-boat ?person ?boat))
-                 (when (missionary ?person)
-                    (and (counts-in-location ?location ?nc ?new-number-of-missionaries)
-                         (not (counts-in-location ?location ?nc ?nm))))
-                 (when (cannibal ?person)
-                    (and (counts-in-location ?location ?new-number-of-cannibals ?nm)
-                         (not (counts-in-location ?location ?nc ?nm))))
+                 (more-missionaries-in-location ?location ?new-more-missionaries-count)
+                 (not (more-missionaries-in-location ?location ?more-missionaries-count))
                  (when (on-boat-1)
                     (and (on-boat-0)
                          (not (on-boat-1))))
